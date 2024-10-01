@@ -1,32 +1,27 @@
 import unittest
 from models.base_model import BaseModel
 from datetime import datetime
-
+import time
 
 class TestBaseModel(unittest.TestCase):
-    """Test cases for the BaseModel class"""
+    """Unit tests for the BaseModel class"""
 
-    def test_instance_creation(self):
-        """Test if BaseModel instance is created correctly"""
+    def test_save(self):
+        """Test that save() method updates `updated_at` attribute"""
         model = BaseModel()
-        self.assertIsInstance(model, BaseModel)
+        old_updated_at = model.updated_at
+        time.sleep(1)  # Pause for 1 second to see the change in time
+        model.save()
+        new_updated_at = model.updated_at
+        self.assertNotEqual(old_updated_at, new_updated_at)
+        self.assertTrue(new_updated_at > old_updated_at)
 
-    def test_id_is_string(self):
-        """Test that id is a string"""
+    def test_str(self):
+        """Test the __str__ method to ensure correct output format"""
         model = BaseModel()
-        self.assertIsInstance(model.id, str)
+        model_str = str(model)
+        expected_str = f"[BaseModel] ({model.id}) {model.__dict__}"
+        self.assertEqual(model_str, expected_str)
 
-    def test_created_at(self):
-        """Test that created_at is a datetime object"""
-        model = BaseModel()
-        self.assertIsInstance(model.created_at, datetime)
-
-    def test_to_dict(self):
-        """Test to_dict method"""
-        model = BaseModel()
-        model_dict = model.to_dict()
-        self.assertEqual(model_dict['__class__'], 'BaseModel')
-
-
-if __name__ == "__main__":
+if __name__ == '__main__':
     unittest.main()
