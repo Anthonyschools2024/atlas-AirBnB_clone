@@ -43,6 +43,20 @@ class BaseModel:
         dict_repr["updated_at"] = self.updated_at.isoformat()  # Convert to ISO format
         return dict_repr
 
+    def reload(self, data):
+        """
+        Reloads the instance's attributes from a given dictionary.
+        
+        Args:
+            data (dict): A dictionary containing attribute names and values.
+        """
+        for key, value in data.items():
+            if key != "__class__":
+                if key in ["created_at", "updated_at"]:
+                    # Convert string to datetime object
+                    value = datetime.fromisoformat(value)
+                setattr(self, key, value)
+
 
 if __name__ == "__main__":
     # Create an instance of BaseModel
@@ -60,3 +74,15 @@ if __name__ == "__main__":
     # Convert the instance to a dictionary and print it
     instance_dict = instance.to_dict()
     print(instance_dict)
+
+    # Example of reloading data
+    new_data = {
+        "id": "12345",
+        "created_at": "2024-10-01T12:00:00",
+        "updated_at": "2024-10-01T12:00:00",
+        "name": "Sample Name",
+    }
+    instance.reload(new_data)
+
+    # Print the reloaded instance
+    print(instance)

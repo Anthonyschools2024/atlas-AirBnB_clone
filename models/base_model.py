@@ -50,12 +50,23 @@ class BaseModel:
         Args:
             data (dict): A dictionary containing attribute names and values.
         """
-        for key, value in data.items():
+        # Clear existing attributes that are being reloaded
+        for key in list(self.__dict__.keys()):
             if key != "__class__":
-                if key in ["created_at", "updated_at"]:
-                    # Convert string to datetime object
-                    value = datetime.fromisoformat(value)
-                setattr(self, key, value)
+                delattr(self, key)
+
+        for key, value in data.items():
+            if key == "created_at" or key == "updated_at":
+                # Convert string to datetime object
+                value = datetime.fromisoformat(value)
+            setattr(self, key, value)
+
+        # If id is not provided, generate a new UUID
+        if 'id' not in data:
+            self.id = str(uuid.uuid4())
+        
+        # Set updated_at to the current time
+        self.updated_at = datetime.now()
 
 
 if __name__ == "__main__":
@@ -63,17 +74,17 @@ if __name__ == "__main__":
     instance = BaseModel()
 
     # Print the string representation of the instance
-    print(instance)
+    print("Before reload:", instance)
 
     # Save the instance to update the updated_at attribute
     instance.save()
 
     # Print the updated instance
-    print(instance)
+    print("After save:", instance)
 
     # Convert the instance to a dictionary and print it
     instance_dict = instance.to_dict()
-    print(instance_dict)
+    print("Dictionary representation:", instance_dict)
 
     # Example of reloading data
     new_data = {
@@ -85,4 +96,4 @@ if __name__ == "__main__":
     instance.reload(new_data)
 
     # Print the reloaded instance
-    print(instance)
+    print("After reload:", instance)
