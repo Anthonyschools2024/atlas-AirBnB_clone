@@ -39,7 +39,7 @@ class HBNBCommand(cmd.Cmd):
         pass
 
     def do_create(self, arg):
-        """Creates a new instance of BaseModel or other classes and prints the id"""
+        """Creates a new instance of BaseModel or other classes"""
         if not arg:
             print("** class name missing **")
             return
@@ -129,7 +129,6 @@ class HBNBCommand(cmd.Cmd):
             return
         attr_name = args[2]
         attr_value = args[3].strip('"')
-        # Try to cast value to int or float, if possible
         if attr_value.isdigit():
             attr_value = int(attr_value)
         else:
