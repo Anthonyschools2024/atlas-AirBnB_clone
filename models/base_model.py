@@ -5,7 +5,7 @@ from datetime import datetime
 class BaseModel:
     """
     BaseModel defines all common attributes/methods for other classes.
-    
+
     Attributes:
         id (str): Unique identifier for each instance, assigned with a UUID.
         created_at (datetime): The date and time when the instance is created.
@@ -33,3 +33,20 @@ class BaseModel:
         dict_repr["created_at"] = self.created_at.isoformat()  # Convert to ISO format
         dict_repr["updated_at"] = self.updated_at.isoformat()  # Convert to ISO format
         return dict_repr
+
+if __name__ == "__main__":
+    # Create an instance of BaseModel
+    instance = BaseModel()
+    
+    # Print the string representation of the instance
+    print(instance)
+    
+    # Save the instance to update the updated_at attribute
+    instance.save()
+    
+    # Print the updated instance
+    print(instance)
+    
+    # Convert the instance to a dictionary and print it
+    instance_dict = instance.to_dict()
+    print(instance_dict)
