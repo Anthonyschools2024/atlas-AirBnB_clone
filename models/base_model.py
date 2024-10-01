@@ -7,10 +7,10 @@ class BaseModel:
     """Defines all common attributes and methods for other classes"""
 
     def __init__(self, *args, **kwargs):
-        """Initializes a new instance of BaseModel or creates from a dictionary"""
+        """Initializes a new instance or creates from a dictionary"""
         if kwargs:
             for key, value in kwargs.items():
-                if key == "created_at" or key == "updated_at":
+                if key in ("created_at", "updated_at"):
                     setattr(self, key, datetime.fromisoformat(value))
                 elif key != "__class__":
                     setattr(self, key, value)
@@ -25,7 +25,7 @@ class BaseModel:
         return f"[{self.__class__.__name__}] ({self.id}) {self.__dict__}"
 
     def save(self):
-        """Updates the updated_at attribute with the current datetime and saves to storage"""
+        """Updates the updated_at attribute with the current datetime"""
         self.updated_at = datetime.now()
         models.storage.save()
 
