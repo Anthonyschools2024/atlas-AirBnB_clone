@@ -58,3 +58,27 @@ if __name__ == "__main__":
     # Convert the instance to a dictionary and print it
     instance_dict = instance.to_dict()
     print(instance_dict)
+
+from models.engine.file_storage import storage
+
+class BaseModel:
+    # ... [rest of your BaseModel code] ...
+
+    def __init__(self, *args, **kwargs):
+        """Initializes a new BaseModel instance."""
+        if kwargs:
+            for key, value in kwargs.items():
+                if key != "__class__":
+                    if key in ["created_at", "updated_at"]:
+                        value = datetime.fromisoformat(value)
+                    setattr(self, key, value)
+        else:
+            self.id = str(uuid.uuid4())
+            self.created_at = datetime.now()
+            self.updated_at = datetime.now()
+            storage.new(self)  # Add this line to link to FileStorage
+
+    def save(self):
+        """Updates the updated_at attribute and saves to storage."""
+        self.updated_at = datetime.now()
+        storage.save()  # Add this line to save to FileStorage
