@@ -3,6 +3,7 @@ from models.base_model import BaseModel
 from datetime import datetime
 import time
 
+
 class TestBaseModel(unittest.TestCase):
     """Unit tests for the BaseModel class"""
 
@@ -22,6 +23,7 @@ class TestBaseModel(unittest.TestCase):
         model_str = str(model)
         expected_str = f"[BaseModel] ({model.id}) {model.__dict__}"
         self.assertEqual(model_str, expected_str)
+
 
 if __name__ == '__main__':
     unittest.main()
