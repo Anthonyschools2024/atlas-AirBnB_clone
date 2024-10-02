@@ -1,11 +1,22 @@
 #!/usr/bin/python3
+"""
+This module contains the entry point for the command interpreter
+of the HBNB project. The interpreter manages the following commands:
+- quit: Exit the command interpreter.
+- EOF: Exit the command interpreter using Ctrl+D.
+- create: Creates a new instance of a class.
+- show: Prints the string representation of an instance.
+- all: Prints all string representations of instances.
+- destroy: Deletes an instance.
+- update: Updates an instance by adding or updating attributes.
+"""
 import cmd
 from models.base_model import BaseModel
 from models.user import User
 from models.state import State
 from models.city import City
 from models.amenity import Amenity
-from models.place import Place
+from models.place import Place   
 from models.review import Review
 from models import storage
 
