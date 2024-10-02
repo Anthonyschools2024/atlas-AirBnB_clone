@@ -22,12 +22,12 @@ class BaseModel:
             models.storage.new(self)
 
     def save(self):
-        """Updates the public instance attribute `updated_at` and saves the object to storage."""
+        """Updates the public instance attribute `updated_at`."""
         self.updated_at = datetime.now()
         models.storage.save()
 
     def to_dict(self):
-        """Returns a dictionary containing all key/values of __dict__ of the instance."""
+        """Returns a dictionary containing all key/values of __dict__."""
         obj_dict = self.__dict__.copy()
         obj_dict["__class__"] = self.__class__.__name__
         obj_dict["created_at"] = self.created_at.isoformat()
@@ -36,4 +36,6 @@ class BaseModel:
 
     def __str__(self):
         """Returns the string representation of the BaseModel instance."""
-        return f"[{self.__class__.__name__}] ({self.id}) {self.__dict__}"
+        return ("[{}] ({}) {}".format(self.__class__.__name__,
+                                      self.id,
+                                      self.__dict__))
