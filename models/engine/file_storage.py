@@ -9,7 +9,8 @@ from models.review import Review
 
 
 class FileStorage:
-    """Serializes instances to a JSON file and deserializes instances back to memory."""
+    """Serializes instances to a JSON file and deserializes
+    instances back to memory."""
 
     __file_path = "file.json"
     __objects = {}
